@@ -8,6 +8,19 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
-    <button class="add 1" type="button">🧀</button>
+    <h1 id="count">0</h1>
+    <button id="cheese">🧀</button>
+    <script>
+      document.getElementById("cheese").onclick = function () {
+        incrementCount();
+      };
+      let i = 0;
+      function incrementCount() {
+        var element = document.getElementById("count");
+        var value = element.innerHTML;
+        value++;
+        document.getElementById("count").innerHTML = value;
+      }
+    </script>
   </body>
 </html>
