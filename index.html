@@ -11,11 +11,17 @@
     <h1 id="count">0</h1>
     <button id="cheese">🧀</button>
     <script>
+      setInterval(incrementAuto, 1000);
       document.getElementById("cheese").onclick = function () {
         incrementCount();
       };
-      let i = 0;
       function incrementCount() {
+        var element = document.getElementById("count");
+        var value = element.innerHTML;
+        value++;
+        document.getElementById("count").innerHTML = value;
+      }
+      function incrementAuto() {
         var element = document.getElementById("count");
         var value = element.innerHTML;
         value++;
