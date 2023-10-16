@@ -14,7 +14,7 @@ countDisplay.style.textAlign = "center";
 countDisplay.style.color = "orange";
 countButton.style.textAlign = "center";
 countButton.style.marginTop = "20px";
-
+countButton.style.transform = "scale(1.5)";
 app.append(header);
 app.append(countDisplay);
 app.append(countButton);
@@ -26,6 +26,12 @@ let growthRate: number = 1;
 let rats: number = 0;
 let goats: number = 0;
 let cows: number = 0;
+
+//COSTS
+let chefCost: number = 10;
+let ratCost: number = 10;
+let goatCost: number = 100;
+let cowCost: number = 1000;
 
 countButton.addEventListener("click", incrementCount);
 updateCounter();
@@ -54,77 +60,83 @@ requestAnimationFrame(incrementAuto);*/
 
 //step 5
 const upgradeButton = document.createElement("button");
-upgradeButton.textContent = "👨‍🍳 = 10 Cheese";
+upgradeButton.textContent = `👨‍🍳 = ${chefCost} Cheese`;
 upgradeButton.disabled = true;
 upgradeButton.addEventListener("click", upgradeCount);
 function upgradeCount() {
   growthRate++;
-  count -= 10;
+  count -= chefCost;
+  chefCost *= 1.15;
   updateCounter();
   updateGrowthRate();
+  upgradeButton.textContent = `👨‍🍳 = ${chefCost} Cheese`;
 }
 //checks to see if u have enough cheese for upgrades
 function upgradeCheck() {
-  if (count < 10) {
+  if (count < chefCost) {
     upgradeButton.disabled = true;
   } else {
     upgradeButton.disabled = false;
   }
 }
 function upgradeACheck() {
-  if (count < 10) {
+  if (count < ratCost) {
     upgradeA.disabled = true;
   } else {
     upgradeA.disabled = false;
   }
 }
 function upgradeBCheck() {
-  if (count < 100) {
+  if (count < goatCost) {
     upgradeB.disabled = true;
   } else {
     upgradeB.disabled = false;
   }
 }
 function upgradeCCheck() {
-  if (count < 1000) {
+  if (count < cowCost) {
     upgradeC.disabled = true;
   } else {
     upgradeC.disabled = false;
   }
 }
 const upgradeA = document.createElement("button");
-upgradeA.textContent = `🐀 = 10 Cheese | Owned: ${rats}`;
+upgradeA.textContent = `🐀 = ${ratCost} Cheese | Owned: ${rats}`;
 upgradeA.addEventListener("click", upgradeAfunction);
 function upgradeAfunction() {
   autoRate += 0.1;
-  count -= 10;
+  count -= ratCost;
   rats++;
+  ratCost *= 1.5;
   updateCounter();
   updateAutoRate();
+  upgradeA.textContent = `🐀 = ${ratCost} Cheese | Owned: ${rats}`;
 }
 
 const upgradeB = document.createElement("button");
-upgradeB.textContent = `🐐= 100 Cheese | Owned: ${goats}`;
+upgradeB.textContent = `🐐= ${goatCost} Cheese | Owned: ${goats}`;
 const upgradeC = document.createElement("button");
-upgradeC.textContent = `🐮= 1000 Cheese | Owned: ${cows}`;
+upgradeC.textContent = `🐮= ${cowCost} Cheese | Owned: ${cows}`;
 
 upgradeB.addEventListener("click", upgradeBfunction);
 function upgradeBfunction() {
   autoRate += 2;
-  count -= 100;
+  count -= goatCost;
   goats++;
+  goatCost *= 1.5;
   updateCounter();
   updateAutoRate();
-  upgradeB.textContent = `🐐= 100 Cheese | Owned: ${goats}`;
+  upgradeB.textContent = `🐐= ${goatCost} Cheese | Owned: ${goats}`;
 }
 upgradeC.addEventListener("click", upgradeCfunction);
 function upgradeCfunction() {
   autoRate += 50;
-  count -= 1000;
+  count -= cowCost;
   cows++;
+  cowCost *= 1.5;
   updateCounter();
   updateAutoRate();
-  upgradeC.textContent = `🐮= 1000 Cheese | Owned: ${cows}`;
+  upgradeC.textContent = `🐮= ${cowCost} Cheese | Owned: ${cows}`;
 }
 
 function autoRateStart() {
