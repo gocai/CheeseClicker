@@ -42,15 +42,52 @@ interface Item {
   cost: number;
   rate: number;
   quantity: number;
+  desc: string;
 }
 
 const availableItems: Item[] = [
-  { name: "rat", cost: 10, rate: 0.1, quantity: 0 },
-  { name: "chef", cost: 10, rate: 1, quantity: 0 },
-  { name: "goat", cost: 100, rate: 2, quantity: 0 },
-  { name: "cow", cost: 1000, rate: 50, quantity: 0 },
-  { name: "robo-arm", cost: 1500, rate: 10, quantity: 0 },
-  { name: "anabolic steroids", cost: 300, rate: 4, quantity: 0 },
+  {
+    name: "rat",
+    cost: 10,
+    rate: 0.1,
+    quantity: 0,
+    desc: "A small rat that will bring you little bits of cheese.",
+  },
+  {
+    name: "chef",
+    cost: 10,
+    rate: 1,
+    quantity: 0,
+    desc: "An ameteur cheesemaker. They'll help you out!",
+  },
+  {
+    name: "goat",
+    cost: 100,
+    rate: 2,
+    quantity: 0,
+    desc: "Need milk? Just buy the whole goat!",
+  },
+  {
+    name: "cow",
+    cost: 1000,
+    rate: 50,
+    quantity: 0,
+    desc: "Still need milk? Just buy the whole cow!",
+  },
+  {
+    name: "robo-arm",
+    cost: 1500,
+    rate: 10,
+    quantity: 0,
+    desc: "Attatching this robo-arm will really increase your cheese-making efficiency... at what cost?",
+  },
+  {
+    name: "anabolic steroids",
+    cost: 300,
+    rate: 4,
+    quantity: 0,
+    desc: "Your stronger muscles will be able to make cheese faster! I do not condone steroid use.",
+  },
 ];
 
 countButton.addEventListener("click", incrementCount);
@@ -265,4 +302,10 @@ function updateAutoRate() {
 function updateGrowthRate() {
   growthRateText.textContent = `Cheese Per Click : ${growthRate}`;
 }
-//step 8
+//step 10, tooltips
+upgradeButton.setAttribute("title", availableItems[1].desc);
+upgradeButton2.setAttribute("title", availableItems[4].desc);
+upgradeButton3.setAttribute("title", availableItems[5].desc);
+upgradeA.setAttribute("title", availableItems[0].desc);
+upgradeB.setAttribute("title", availableItems[2].desc);
+upgradeC.setAttribute("title", availableItems[3].desc);
