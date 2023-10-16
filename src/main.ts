@@ -177,3 +177,4 @@ function updateAutoRate() {
 function updateGrowthRate() {
   growthRateText.textContent = `Cheese Per Click : ${growthRate}`;
 }
+//step 8
