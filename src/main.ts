@@ -39,6 +39,7 @@ let growthRate: number = 1;
 //data driven design
 interface Item {
   name: string;
+  icon: string;
   cost: number;
   rate: number;
   quantity: number;
@@ -48,20 +49,15 @@ interface Item {
 const availableItems: Item[] = [
   {
     name: "rat",
+    icon:"🐀",
     cost: 10,
     rate: 0.1,
     quantity: 0,
     desc: "A small rat that will bring you little bits of cheese.",
   },
   {
-    name: "chef",
-    cost: 10,
-    rate: 1,
-    quantity: 0,
-    desc: "An ameteur cheesemaker. They'll help you out!",
-  },
-  {
     name: "goat",
+    icon: "🐐",
     cost: 100,
     rate: 2,
     quantity: 0,
@@ -69,13 +65,23 @@ const availableItems: Item[] = [
   },
   {
     name: "cow",
+    icon: "🐮",
     cost: 1000,
     rate: 50,
     quantity: 0,
     desc: "Still need milk? Just buy the whole cow!",
   },
   {
+    name: "chef",
+    icon: "👨‍🍳",
+    cost: 10,
+    rate: 1,
+    quantity: 0,
+    desc: "An ameteur cheesemaker. They'll help you out!",
+  },
+  {
     name: "robo-arm",
+    icon: "🦾",
     cost: 1500,
     rate: 10,
     quantity: 0,
@@ -83,6 +89,7 @@ const availableItems: Item[] = [
   },
   {
     name: "anabolic steroids",
+    icon: "💉",
     cost: 300,
     rate: 4,
     quantity: 0,
@@ -101,193 +108,53 @@ function updateCounter() {
   countDisplay.textContent = `${count.toFixed(0)} 🧀`;
 }
 
-/*step 4
-let lastTimestamp: number = performance.now();
-const countFrames = 1 / 60;
-const countRate: number = 0;
-function incrementAuto(timestamp: number) {
-  const deltaTime = (timestamp - lastTimestamp) / 1000;
-  count += (countFrames + countRate) * deltaTime;
-  updateCounter();
-  lastTimestamp = timestamp;
-  requestAnimationFrame(incrementAuto);
+const row = document.createElement("div");
+app.append(row);
+
+function makeButton(){
+  for(let i = 0; i < availableItems.length; i++){
+    const btn = (document.createElement("button"));
+    btn.textContent = `${availableItems[i].icon} = ${availableItems[i].cost.toFixed(0)} Cheese | Owned ${availableItems[i].quantity}`;
+    btn.addEventListener("click",()=>{
+      if(i <= 2){ 
+        autoRate += availableItems[i].rate;
+      }
+      else if(i > 2){
+        growthRate += availableItems[i].rate;
+      }
+      count -= availableItems[i].cost;
+      availableItems[i].cost *= 1.15;
+      availableItems[i].quantity++;
+      btn.textContent = `${availableItems[i].icon} = ${availableItems[i].cost.toFixed(0)} Cheese | Owned ${availableItems[i].quantity}`;
+      updateCounter();
+      updateGrowthRate();
+      updateAutoRate();
+    });
+    btn.disabled = true;
+    setInterval(()=>{
+      if(count < availableItems[i].cost){
+        btn.disabled = true;
+      }
+      else if(count > availableItems[i].cost){
+        btn.disabled = false;
+      }
+    },1);
+    btn.id = availableItems[i].name;
+    app.append(btn);
+  }
 }
 
-requestAnimationFrame(incrementAuto);*/
-
-//step 5
-const upgradeButton = document.createElement("button");
-upgradeButton.textContent = `👨‍🍳 = ${availableItems[1].cost.toFixed(
-  0,
-)} Cheese | Owned: ${availableItems[1].quantity}`;
-upgradeButton.disabled = true;
-upgradeButton.addEventListener("click", upgradeCount);
-function upgradeCount() {
-  growthRate += availableItems[1].rate;
-  count -= availableItems[1].cost;
-  availableItems[1].cost *= 1.15;
-  availableItems[1].quantity++;
-  updateCounter();
-  updateGrowthRate();
-  upgradeButton.textContent = `👨‍🍳 = ${availableItems[1].cost.toFixed(
-    0,
-  )} Cheese | Owned: ${availableItems[1].quantity}`;
-}
-const upgradeButton2 = document.createElement("button");
-upgradeButton2.textContent = `🦾  = ${availableItems[4].cost.toFixed(
-  0,
-)} Cheese | Owned: ${availableItems[4].quantity}`;
-upgradeButton2.addEventListener("click", upgradeCount2);
-//checks to see if u have enough cheese for upgrades
-function upgradeCount2() {
-  growthRate += availableItems[4].rate;
-  count -= availableItems[4].cost;
-  availableItems[4].cost *= 1.15;
-  availableItems[4].quantity++;
-  updateCounter();
-  updateGrowthRate();
-  upgradeButton2.textContent = `🦾  = ${availableItems[4].cost.toFixed(
-    0,
-  )} Cheese | Owned: ${availableItems[4].quantity}`;
-}
-const upgradeButton3 = document.createElement("button");
-upgradeButton3.textContent = `💉  = ${availableItems[5].cost.toFixed(
-  0,
-)} Cheese | Owned: ${availableItems[5].quantity}`;
-upgradeButton3.addEventListener("click", upgradeCount3);
-function upgradeCount3() {
-  growthRate += availableItems[5].rate;
-  count -= availableItems[5].cost;
-  availableItems[5].cost *= 1.15;
-  availableItems[5].quantity++;
-  updateCounter();
-  updateGrowthRate();
-  upgradeButton3.textContent = `💉  = ${availableItems[5].cost.toFixed(
-    0,
-  )} Cheese | Owned: ${availableItems[5].quantity}`;
-}
-
-function upgradeCheck() {
-  if (count < availableItems[1].cost) {
-    upgradeButton.disabled = true;
-  } else {
-    upgradeButton.disabled = false;
-  }
-}
-function upgradeACheck() {
-  if (count < availableItems[0].cost) {
-    upgradeA.disabled = true;
-  } else {
-    upgradeA.disabled = false;
-  }
-}
-function upgradeBCheck() {
-  if (count < availableItems[2].cost) {
-    upgradeB.disabled = true;
-  } else {
-    upgradeB.disabled = false;
-  }
-}
-function upgradeCCheck() {
-  if (count < availableItems[3].cost) {
-    upgradeC.disabled = true;
-  } else {
-    upgradeC.disabled = false;
-  }
-}
-function upgrade2Check() {
-  if (count < availableItems[4].cost) {
-    upgradeButton2.disabled = true;
-  } else {
-    upgradeButton2.disabled = false;
-  }
-}
-function upgrade3Check() {
-  if (count < availableItems[5].cost) {
-    upgradeButton3.disabled = true;
-  } else {
-    upgradeButton3.disabled = false;
-  }
-}
-const upgradeA = document.createElement("button");
-upgradeA.textContent = `🐀 = ${availableItems[0].cost.toFixed(
-  0,
-)} Cheese | Owned: ${availableItems[0].quantity}`;
-upgradeA.addEventListener("click", upgradeAfunction);
-function upgradeAfunction() {
-  autoRate += availableItems[0].rate;
-  count -= availableItems[0].cost;
-  availableItems[0].quantity++;
-  availableItems[0].cost *= 1.5;
-  updateCounter();
-  updateAutoRate();
-  upgradeA.textContent = `🐀 = ${availableItems[0].cost.toFixed(
-    0,
-  )} Cheese | Owned: ${availableItems[0].quantity}`;
-}
-
-const upgradeB = document.createElement("button");
-upgradeB.textContent = `🐐= ${availableItems[2].cost.toFixed(
-  0,
-)} Cheese | Owned: ${availableItems[2].quantity}`;
-const upgradeC = document.createElement("button");
-upgradeC.textContent = `🐮= ${availableItems[3].cost.toFixed(
-  0,
-)} Cheese | Owned: ${availableItems[3].quantity}`;
-
-upgradeB.addEventListener("click", upgradeBfunction);
-function upgradeBfunction() {
-  autoRate += availableItems[2].rate;
-  count -= availableItems[2].cost;
-  availableItems[2].quantity++;
-  availableItems[2].cost *= 1.5;
-  updateCounter();
-  updateAutoRate();
-  upgradeB.textContent = `🐐= ${availableItems[2].cost.toFixed(
-    0,
-  )} Cheese | Owned: ${availableItems[2].quantity}`;
-}
-upgradeC.addEventListener("click", upgradeCfunction);
-function upgradeCfunction() {
-  autoRate += availableItems[3].rate;
-  count -= availableItems[3].cost;
-  availableItems[3].quantity++;
-  availableItems[3].cost *= 1.5;
-  updateCounter();
-  updateAutoRate();
-  upgradeC.textContent = `🐮= ${availableItems[3].cost.toFixed(
-    0,
-  )} Cheese | Owned: ${availableItems[3].quantity}`;
-}
+makeButton();
 
 function autoRateStart() {
   count = count + autoRate;
   updateCounter();
 }
 setInterval(autoRateStart, 1000);
-//interval to check if upgrade is affordable
-setInterval(upgradeCheck, 1);
-setInterval(upgradeACheck, 1);
-setInterval(upgradeBCheck, 1);
-setInterval(upgradeCCheck, 1);
-setInterval(upgrade2Check, 1);
-setInterval(upgrade3Check, 1);
-upgradeButton.style.marginTop = "10px";
-const row1 = document.createElement("div");
-app.append(row1);
-app.append(upgradeButton);
-app.append(upgradeButton3);
-app.append(upgradeButton2);
-const row2 = document.createElement("div");
-app.append(row2);
-app.append(upgradeA);
-app.append(upgradeB);
-app.append(upgradeC);
-//step 6
+
 const growthRateText = document.getElementById("growthRateText")!;
 growthRateText.textContent = `Cheese Per Click : ${growthRate}`;
 growthRateText.style.transform = "scale(.25)";
-//const row3 = document.createElement("div");
 const autoRateText = document.getElementById("autoRateText")!;
 autoRateText.textContent = `Cheese Per Second : ${autoRate}`;
 autoRateText.style.transform = "scale(.25)";
@@ -303,9 +170,10 @@ function updateGrowthRate() {
   growthRateText.textContent = `Cheese Per Click : ${growthRate}`;
 }
 //step 10, tooltips
-upgradeButton.setAttribute("title", availableItems[1].desc);
-upgradeButton2.setAttribute("title", availableItems[4].desc);
-upgradeButton3.setAttribute("title", availableItems[5].desc);
-upgradeA.setAttribute("title", availableItems[0].desc);
-upgradeB.setAttribute("title", availableItems[2].desc);
-upgradeC.setAttribute("title", availableItems[3].desc);
+
+//upgradeButton.setAttribute("title", availableItems[1].desc);
+//upgradeButton2.setAttribute("title", availableItems[4].desc);
+//upgradeButton3.setAttribute("title", availableItems[5].desc);
+//upgradeA.setAttribute("title", availableItems[0].desc);
+//upgradeB.setAttribute("title", availableItems[2].desc);
+//upgradeC.setAttribute("title", availableItems[3].desc);
