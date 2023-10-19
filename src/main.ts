@@ -140,6 +140,7 @@ function makeButton(){
       }
     },1);
     btn.id = availableItems[i].name;
+    btn.setAttribute("title", availableItems[i].desc); //shows description when you MOUSEOVER
     app.append(btn);
   }
 }
